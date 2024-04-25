@@ -7,12 +7,11 @@
     - [Data Loading and Preprocessing](###data-loading-and-preprocessing)
     - [Dimensionality Reduction](###dimensionality-reduction)
         - [PCA](####PCA)
-    - [Model Training](###model-training)
-    - [Evaluation and Analysis](###evaluation-and-analysis)
+        - [LDA](####LDA)
+    - [Model Training Evaluation and Analysis ](###model-training)
 5. [Results](##results)
 6. [Usage](##usage)
-7. [Future Work](##future-work)
-8. [Contributors](##contributors)
+7. [Contributors](##contributors)
 
 
 ## Introduction
@@ -64,7 +63,10 @@ PCA and LDA techniques are applied to reduce the dimensionality of the image dat
 
 #### PCA (Principal Component Analysis)
 
-PCA is a statistical method used to reduce the dimensionality of data while retaining most of its variation. In this project, PCA is employed to transform the image data into a lower-dimensional space. Here's how PCA is implemented in Python:
+PCA is a statistical method used to reduce the dimensionality of data while retaining most of its variation. In this project, PCA is employed to transform the image data into a lower-dimensional space.  Image data typically consists of high-dimensional feature vectors representing pixels or other image characteristics. By applying PCA, we can identify the principal components that capture the most significant variations in the image data. These principal components form a new set of basis vectors, allowing us to represent the images in a lower-dimensional space while preserving as much of the original information as possible.
+
+The lower-dimensional representation obtained through PCA can be useful for various tasks such as visualization, feature extraction, and dimensionality reduction. In this project, PCA is utilized as a preprocessing step to reduce the complexity of the image data while preserving essential information, making it more manageable for the classification.
+Python:
 
 ```python
 def apply_pca(data, alpha=0.95):
@@ -93,45 +95,42 @@ transformed_x_train, eig_vectors_pca_train, k = apply_pca(X_train, alpha=0.95)
 centered_x_test = X_test - np.mean(X_train, axis=0)
 transformed_x_test = np.dot(centered_x_test, eig_vectors_pca_train[:, :k])
 ```
-Visualization of PCA Analyzed Images:
+Visualization of PCA Analyzed sample images:
+![PCA Analyzed Image](https://github.com/Hailemicael/Amharic-Character-Recognition-with-ML/blob/master/Images%20.png)
+
+
+#### LDA (Linear Discriminant Analysis)
+
+LDA is a dimensionality reduction technique used in supervised learning tasks to find the linear combinations of features that best separate different classes in the data. In contrast to PCA, which focuses on maximizing the variance in the data, LDA aims to maximize the separation between classes.
+
+In this project, LDA is applied to the transformed image data obtained after PCA. By projecting the data onto a lower-dimensional subspace defined by the most discriminative components, LDA helps enhance the class separability and improve the performance of classification algorithms.
 ```python
-def pca_analyzed_images(data, eig_vectors, or_data, or_labels, or_shape=(64, 64), num_images=10):
-    fig, axs = plt.subplots(1, num_images, figsize=(15, 3))
-    for i in range(num_images):
-        reconstructed_image = np.dot(data[i], eig_vectors[:, :data.shape[1]].T) + np.mean(or_data, axis=0)
-        pca_analyzed_image = reconstructed_image.reshape(or_shape)
+def LDA(data, labels, k=1):
+    # Implementation code here...
 
-        axs[i].imshow(pca_analyzed_image, cmap='gray')
-        axs[i].set_title(f"Label: {or_labels[i]}")
-        axs[i].axis('off')
-    plt.show()
-
-# Visualize PCA Analyzed Images
-pca_analyzed_images(transformed_x_train, eig_vectors_pca_train, X_train, y_train)
+lda_space = LDA(transformed_x_train, y_train, k=100) 
+train_lda_projected = np.dot(transformed_x_train, lda_space)
+test_lda_projected = np.dot(transformed_x_test, lda_space)
 ```
-### Model Training
-Various classifiers such as SVM, Logistic Regression, and KNN are trained using the transformed data. These classifiers are chosen for their effectiveness in handling multi-class classification tasks.
+## Model Training, Evaluation, and Analysis
+The training phase involves the utilization of various classifiers, including SVM, Logistic Regression, and KNN, to handle the multi-class classification tasks presented by Amharic character recognition. These classifiers are chosen for their effectiveness in handling such tasks.
 
-### Evaluation and Analysis
-The trained models are evaluated using performance metrics such as accuracy, precision, and F1-score. Confusion matrices and classification reports are generated to analyze the model's performance on different classes of Amharic characters.
+After the transformation of the data through PCA and subsequent application of LDA, the trained models are evaluated using performance metrics such as accuracy, precision, and F1-score. The evaluation is performed individually for each model: SVM, KNN, and Logistic Regression.
+
+Additionally, confusion matrices and classification reports are generated to provide deeper insights into the models' performance across different classes of Amharic characters.
 
 ## Results
-The results of the experiments demonstrate the effectiveness of the proposed approach in accurately classifying Amharic characters. The trained models achieve high accuracy and demonstrate robustness in handling variations in handwriting styles and character shapes.
+The results of the experiments demonstrate the effectiveness of the proposed approach in accurately classifying Amharic characters. Each model, whether trained before PCA, after PCA, or after LDA, achieves high accuracy and demonstrate improvement in handling variations in handwriting styles and character shapes.
+
+![confusion_matrix_SVM_after apply PCA ](https://github.com/Hailemicael/Amharic-Character-Recognition-with-ML/blob/master/confusion_matrix_SVM_after%20applying%20PCA.png)
 
 ## Usage
-To replicate the experiments and visualize the results:
+This project is particularly beneficial for supporting handwritten recognition systems in developing countries, where familiarity with technology is crucial. By accurately recognizing handwritten Amharic characters, it helps bridge the technological gap and promotes accessibility to advanced technologies.
 
-1. Clone the repository to your local machine.
-2. Install the required dependencies listed in the `requirements.txt` file using `pip install -r requirements.txt`.
-3. Update the `dataset_dir` variable in the code with the path to your dataset directory.
-4. Run the provided scripts or notebooks to load, preprocess, train, and evaluate the models.
+Its focus on the Amharic script addresses the specific needs of regions where this language is prevalent. Leveraging machine learning techniques, it offers efficient recognition capabilities, enhancing communication, education, and accessibility for Amharic-speaking communities.
 
-## Future Work
-Future work may involve:
+Furthermore, its open-source nature encourages collaboration and innovation, allowing developers and researchers to contribute to its improvement and expansion. This collaborative effort fosters technological advancement and literacy in Amharic-speaking regions.
 
-- Experimenting with different feature extraction techniques.
-- Exploring deep learning models for character recognition.
-- Enhancing the dataset with more diverse samples and labels.
 
 ## Contributors
-[Your Name]
+Hailemicael Lulseged Yimer
