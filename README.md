@@ -5,6 +5,7 @@
 3. [Dataset](##dataset)
 4. [Methodology](##methodology)
     - [Data Loading and Preprocessing](###data-loading-and-preprocessing)
+    - [Train and Test Data Splitting](###Train-and-Test-Data-Splitting)
     - [Dimensionality Reduction](###dimensionality-reduction)
         - [PCA](####PCA)
         - [LDA](####LDA)
@@ -58,6 +59,16 @@ dataset_dir = "/home/hailemicael/ml_pro/dataset"
 data, labels = load_images_and_labels(dataset_dir)
 data = normalize_data(data)
 ```
+
+### Train and Test Data Splitting
+The dataset is divided into two subsets: the training set and the testing set. The training set is used to train the machine learning models, while the testing set is used to evaluate their performance on unseen data. In this project number of samples in the training set is  3360  and the number of samples in the testing set is 840.
+sample images of training set:
+![Training Image](https://github.com/Hailemicael/Amharic-Character-Recognition-with-ML/raw/master/training_image.png)
+
+sample images of testing set
+![Test Image](https://github.com/Hailemicael/Amharic-Character-Recognition-with-ML/raw/master/test_image.png)
+
+
 ### Dimensionality Reduction
 PCA and LDA techniques are applied to reduce the dimensionality of the image data while preserving important features. This helps in improving computational efficiency and reducing overfitting.
 
